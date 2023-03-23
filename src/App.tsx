@@ -1,0 +1,16 @@
+import { BrowserRouter } from 'react-router-dom';
+import { Header } from './components/Header';
+import { Router } from './shared/routes';
+
+function App() {
+  return (
+    <main>
+      
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </main>
+  );
+}
+
+export default App;
