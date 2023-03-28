@@ -1,5 +1,6 @@
 import {Link as RouterLink} from'react-router-dom'
 import { Button, Flex, Input, Link, Stack, Text } from '@chakra-ui/react';
+import { Logo } from '../../components/Logo';
 
 
 function SignIn() {
@@ -15,7 +16,7 @@ function SignIn() {
         borderRadius={8}
         flexDir="column"
       >
-        
+        <Logo />
         <Stack spacing="6">
           <Input
             name="email"
