@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { Input } from '../../components/Form/Input'
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
+import { api } from '../../api/axios';
 
 type SignInFormData = {
   email: string;
@@ -26,7 +27,9 @@ function SignIn() {
   const handleSignIn: SubmitHandler<SignInFormData> = async (values) => {
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    console.log(values);
+    const response = await api.post('/authenticate', values)
+
+    console.log(response)
   }
 
   return (
