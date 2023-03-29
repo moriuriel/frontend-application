@@ -1,8 +1,8 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Link as RouterLink } from 'react-router-dom';
-import { Button, Flex, Input, Link, Stack } from '@chakra-ui/react';
+import { Button, Flex, Link, Stack } from '@chakra-ui/react';
 import { Logo } from '../../components/Logo';
-
+import { Input } from '../../components/Form/Input'
 function SignUp() {
   return (
     <Flex w="100vw" h="100vh" align="center" justify="center">

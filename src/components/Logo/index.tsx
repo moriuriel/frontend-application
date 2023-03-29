@@ -9,7 +9,7 @@ export function Logo() {
       w="64"
     >
       minhas contas
-      <Text as="span" ml="1" colorScheme="purple"color="purple.100">.</Text>
+      <Text as="span" ml="1" color="purple.700">.</Text>
     </Text>
   );
 }

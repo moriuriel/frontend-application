@@ -1,9 +1,34 @@
 import {Link as RouterLink} from'react-router-dom'
-import { Button, Flex, Input, Link, Stack, Text } from '@chakra-ui/react';
+import { Button, Flex, Link, Stack, Text } from '@chakra-ui/react';
 import { Logo } from '../../components/Logo';
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { Input } from '../../components/Form/Input'
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup'
 
+type SignInFormData = {
+  email: string;
+  password: string;
+};
+
+const signInFormSchema = yup.object().shape({
+  email: yup.string().required('E-mail obrigatório').email('E-mail inválido'),
+  password: yup.string().required('Senha obrigatória'),
+})
 
 function SignIn() {
+  const { register, handleSubmit, formState } = useForm<SignInFormData>({
+    resolver: yupResolver(signInFormSchema)
+  })
+
+  const { errors } = formState
+
+  const handleSignIn: SubmitHandler<SignInFormData> = async (values) => {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    console.log(values);
+  }
+
   return (
     <Flex w="100vw" h="100vh" align="center" justify="center">
       
@@ -15,31 +40,30 @@ function SignIn() {
         p="10"
         borderRadius={8}
         flexDir="column"
+        onSubmit={handleSubmit(handleSignIn)}
       >
         <Logo />
         <Stack spacing="6">
           <Input
-            name="email"
-            type="email"
-            placeholder="E-mail"
-            variant="outline"
-            borderColor="gray.700"
-            focusBorderColor="gray.600"
+             name={"email"} 
+             type="email" 
+             label="E-mail" 
+             error={errors.email}
+             {...register('email')}
           />
           <Input
-            name="password"
-            type="password"
-            placeholder="Senha"
-            variant="outline"
-            borderColor="gray.700"
-            focusBorderColor="gray.600"
+            name="password" 
+            type="password" 
+            label="Senha" 
+            error={errors.password}
+            {...register('password')}
           />
         </Stack>
         <Link fontWeight="bold" fontSize="14px" color="purple.700" mt={2}>
           Esqueci Minha Senha
         </Link>
 
-        <Button type="submit" mt="6" colorScheme="purple" size="lg">
+        <Button type="submit" mt="6" colorScheme="purple" size="lg" isLoading={formState.isSubmitting}>
           Entrar
         </Button>
 
