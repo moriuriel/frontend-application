@@ -1,16 +1,16 @@
-import {Link as RouterLink} from'react-router-dom'
-import { Button, Flex, Link, Stack, Text } from '@chakra-ui/react';
-import { Logo } from '../../components/Logo';
+import { Link as RouterLink } from 'react-router-dom'
+import { Button, Flex, Link, Stack, Text } from '@chakra-ui/react'
+import { Logo } from '../../components/Logo'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Input } from '../../components/Form/Input'
-import * as yup from 'yup';
+import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { api } from '../../api/axios';
+import { api } from '../../api/axios'
 
 type SignInFormData = {
-  email: string;
-  password: string;
-};
+  email: string
+  password: string
+}
 
 const signInFormSchema = yup.object().shape({
   email: yup.string().required('E-mail obrigatório').email('E-mail inválido'),
@@ -19,13 +19,13 @@ const signInFormSchema = yup.object().shape({
 
 function SignIn() {
   const { register, handleSubmit, formState } = useForm<SignInFormData>({
-    resolver: yupResolver(signInFormSchema)
+    resolver: yupResolver(signInFormSchema),
   })
 
   const { errors } = formState
 
   const handleSignIn: SubmitHandler<SignInFormData> = async (values) => {
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000))
 
     const response = await api.post('/authenticate', values)
 
@@ -34,7 +34,6 @@ function SignIn() {
 
   return (
     <Flex w="100vw" h="100vh" align="center" justify="center">
-      
       <Flex
         as="form"
         width="100%"
@@ -48,16 +47,16 @@ function SignIn() {
         <Logo />
         <Stack spacing="6">
           <Input
-             name={"email"} 
-             type="email" 
-             label="E-mail" 
-             error={errors.email}
-             {...register('email')}
+            name={'email'}
+            type="email"
+            label="E-mail"
+            error={errors.email}
+            {...register('email')}
           />
           <Input
-            name="password" 
-            type="password" 
-            label="Senha" 
+            name="password"
+            type="password"
+            label="Senha"
             error={errors.password}
             {...register('password')}
           />
@@ -66,19 +65,31 @@ function SignIn() {
           Esqueci Minha Senha
         </Link>
 
-        <Button type="submit" mt="6" colorScheme="purple" size="lg" isLoading={formState.isSubmitting}>
+        <Button
+          type="submit"
+          mt="6"
+          colorScheme="purple"
+          size="lg"
+          isLoading={formState.isSubmitting}
+        >
           Entrar
         </Button>
 
         <Flex align="center" p={2} mt={5}>
           <Text marginRight="5px">Não tem uma conta?</Text>
-          <Link as={RouterLink} to='/signup' fontWeight="bold" fontSize="14px" color="purple.700">
+          <Link
+            as={RouterLink}
+            to="/signup"
+            fontWeight="bold"
+            fontSize="14px"
+            color="purple.700"
+          >
             Registre-se
           </Link>
         </Flex>
       </Flex>
     </Flex>
-  );
+  )
 }
 
-export {SignIn}
+export { SignIn }

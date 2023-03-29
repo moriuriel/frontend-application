@@ -1,7 +1,7 @@
-import { ArrowBackIcon } from '@chakra-ui/icons';
-import { Link as RouterLink } from 'react-router-dom';
-import { Button, Flex, Link, Stack } from '@chakra-ui/react';
-import { Logo } from '../../components/Logo';
+import { ArrowBackIcon } from '@chakra-ui/icons'
+import { Link as RouterLink } from 'react-router-dom'
+import { Button, Flex, Link, Stack } from '@chakra-ui/react'
+import { Logo } from '../../components/Logo'
 import { Input } from '../../components/Form/Input'
 function SignUp() {
   return (
@@ -67,7 +67,7 @@ function SignUp() {
         </Flex>
       </Flex>
     </Flex>
-  );
+  )
 }
 
-export { SignUp };
+export { SignUp }

@@ -1,13 +1,13 @@
-import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Text } from '@chakra-ui/react'
 
 interface ProfileProps {
-  showProfileData?: boolean;
+  showProfileData?: boolean
 }
 
 export function Profile({ showProfileData = true }: ProfileProps) {
   return (
     <Flex align="center">
-      { showProfileData && (
+      {showProfileData && (
         <Box mr="4" textAlign="right">
           <Text>Uriel Mori Vanso</Text>
           <Text color="gray.300" fontSize="small">
@@ -16,7 +16,12 @@ export function Profile({ showProfileData = true }: ProfileProps) {
         </Box>
       )}
 
-      <Avatar size="md" name="Uriel Mori Vanso"  background="gray.700" color="gray.100"/>
+      <Avatar
+        size="md"
+        name="Uriel Mori Vanso"
+        background="gray.700"
+        color="gray.100"
+      />
     </Flex>
-  );
+  )
 }
