@@ -47,14 +47,12 @@ function SignIn() {
         <Logo />
         <Stack spacing="6">
           <Input
-            name={'email'}
             type="email"
             label="E-mail"
             error={errors.email}
             {...register('email')}
           />
           <Input
-            name="password"
             type="password"
             label="Senha"
             error={errors.password}

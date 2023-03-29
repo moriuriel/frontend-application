@@ -1,9 +1,66 @@
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { Link as RouterLink } from 'react-router-dom'
-import { Button, Flex, Link, Stack } from '@chakra-ui/react'
+import { Button, Flex, Link, Stack, useToast } from '@chakra-ui/react'
 import { Logo } from '../../components/Logo'
 import { Input } from '../../components/Form/Input'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { api } from '../../api/axios'
+
+type SignUpFormData = {
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
+}
+
+const signUpFormSchema = yup.object().shape({
+  name: yup.string().required('Nome obrigatório'),
+  email: yup.string().required('E-mail obrigatório').email('E-mail inválido'),
+  password: yup.string().required('Senha obrigatória'),
+  confirmPassword: yup.string().required('Senha obrigatória'),
+})
+
 function SignUp() {
+  const toast = useToast()
+  const { register, handleSubmit, formState } = useForm<SignUpFormData>({
+    resolver: yupResolver(signUpFormSchema),
+  })
+
+  const { errors } = formState
+
+  const handleSignIn: SubmitHandler<SignUpFormData> = async (values) => {
+    try {
+      const response = await api.post('/users', {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      })
+
+      console.log(response)
+      toast({
+        title: 'Sucesso!',
+        description:
+          'Falta pouco para você começar a usar a nossa plataforma, confirme o seu e-mail 😉',
+        status: 'success',
+        duration: 10000,
+        isClosable: true,
+        position: 'top-right',
+      })
+    } catch (error) {
+      toast({
+        description:
+          'Tivemos um erro inesperado por favor tente novamente mais tarde',
+        title: 'Ops!',
+        status: 'error',
+        duration: 10000,
+        isClosable: true,
+        position: 'top-right',
+      })
+    }
+  }
+
   return (
     <Flex w="100vw" h="100vh" align="center" justify="center">
       <Flex
@@ -14,43 +71,53 @@ function SignUp() {
         p="10"
         borderRadius={8}
         flexDir="column"
+        onSubmit={handleSubmit(handleSignIn)}
       >
         <Logo />
         <Stack spacing="6">
           <Input
-            name="name"
-            type="name"
             placeholder="Nome Completo"
             variant="outline"
             borderColor="gray.700"
             focusBorderColor="gray.600"
+            error={errors.name}
+            {...register('name')}
           />
           <Input
-            name="email"
             type="email"
             placeholder="E-mail"
             variant="outline"
             borderColor="gray.700"
             focusBorderColor="gray.600"
+            error={errors.email}
+            {...register('email')}
           />
           <Input
-            name="password"
             type="password"
             placeholder="Sua Senha"
             variant="outline"
             borderColor="gray.700"
             focusBorderColor="gray.600"
+            error={errors.password}
+            {...register('password')}
           />
           <Input
-            name="password"
             type="password"
             placeholder="Confirme sua senha"
             variant="outline"
             borderColor="gray.700"
             focusBorderColor="gray.600"
+            error={errors.confirmPassword}
+            {...register('confirmPassword')}
           />
         </Stack>
-        <Button type="submit" mt="6" colorScheme="purple" size="lg">
+        <Button
+          type="submit"
+          mt="6"
+          colorScheme="purple"
+          size="lg"
+          isLoading={formState.isSubmitting}
+        >
           Cadastrar
         </Button>
         <Flex align="center" p={2} mt={5}>
