@@ -14,12 +14,14 @@ export function Profile() {
     <Flex align="center">
       <Box mr="4" textAlign="right">
         <Text>{user.name}</Text>
+        <Text color="gray.300" fontSize="small">
+          {user.email}
+        </Text>
         <Link
           as="button"
           fontWeight="bold"
           fontSize="14px"
           color="purple.700"
-          mt={2}
           onClick={handleSignOut}
         >
           Sair
