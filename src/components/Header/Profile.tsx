@@ -1,23 +1,30 @@
-import { Avatar, Box, Flex, Text } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Link, Text } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/auth'
 
-interface ProfileProps {
-  showProfileData?: boolean
-}
+export function Profile() {
+  const { user, signOut } = useAuth()
+  const navigate = useNavigate()
 
-export function Profile({ showProfileData = true }: ProfileProps) {
-  const { user } = useAuth()
+  const handleSignOut = () => {
+    signOut()
+    navigate('/')
+  }
   return (
     <Flex align="center">
-      {showProfileData && (
-        <Box mr="4" textAlign="right">
-          <Text>{user.name}</Text>
-          <Text color="gray.300" fontSize="small">
-            {user.email}
-          </Text>
-        </Box>
-      )}
-
+      <Box mr="4" textAlign="right">
+        <Text>{user.name}</Text>
+        <Link
+          as="button"
+          fontWeight="bold"
+          fontSize="14px"
+          color="purple.700"
+          mt={2}
+          onClick={handleSignOut}
+        >
+          Sair
+        </Link>
+      </Box>
       <Avatar
         size="md"
         name={user.name}
