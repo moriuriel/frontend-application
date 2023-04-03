@@ -1,11 +1,11 @@
-import { Link as RouterLink } from 'react-router-dom'
 import { Button, Flex, Link, Stack, Text } from '@chakra-ui/react'
-import { Logo } from '../../components/Logo'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { Input } from '../../components/Form/Input'
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { api } from '../../api/axios'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
+import * as yup from 'yup'
+import { Input } from '../../components/Form/Input'
+import { Logo } from '../../components/Logo'
+import { useAuth } from '../../hooks/auth'
 
 type SignInFormData = {
   email: string
@@ -20,16 +20,27 @@ const signInFormSchema = yup.object().shape({
 function SignIn() {
   const { register, handleSubmit, formState } = useForm<SignInFormData>({
     resolver: yupResolver(signInFormSchema),
+    resetOptions: {
+      keepIsSubmitted: true,
+      keepErrors: true,
+    },
   })
+
+  const { signIn } = useAuth()
+  const navigate = useNavigate()
 
   const { errors } = formState
 
   const handleSignIn: SubmitHandler<SignInFormData> = async (values) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    const response = await api.post('/authenticate', values)
+      await signIn({ email: values.email, password: values.password })
 
-    console.log(response)
+      navigate('/dashboard')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -68,11 +79,10 @@ function SignIn() {
           mt="6"
           colorScheme="purple"
           size="lg"
-          isLoading={formState.isSubmitting}
+          isLoading={formState.isLoading}
         >
           Entrar
         </Button>
-
         <Flex align="center" p={2} mt={5}>
           <Text marginRight="5px">Não tem uma conta?</Text>
           <Link
