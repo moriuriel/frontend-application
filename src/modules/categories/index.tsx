@@ -2,8 +2,7 @@ import {
   CheckIcon,
   CloseIcon,
   DeleteIcon,
-  PlusSquareIcon,
-  ViewIcon
+  PlusSquareIcon
 } from "@chakra-ui/icons";
 import {
   Box,
@@ -36,13 +35,13 @@ import { api } from "../../api/axios";
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 
-type CardFormData = {
-  tag: string;
+type CategoriesFormData = {
+  name: string;
 };
 
-type CardsData = {
+type CategoriesData = {
   id: string;
-  tag: string;
+  name: string;
   ownerId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -50,14 +49,14 @@ type CardsData = {
 };
 
 const cardFormSchema = yup.object().shape({
-  tag: yup.string().required("Apelido obrigatório"),
+  name: yup.string().required("Nome obrigatório"),
 });
-function Cards() {
+function Categories() {
   const toast = useToast();
 
-  const [cards, setCards] = useState<CardsData[]>();
+  const [cards, setCards] = useState<CategoriesData[]>();
 
-  const { register, handleSubmit, formState } = useForm<CardFormData>({
+  const { register, handleSubmit, formState } = useForm<CategoriesFormData>({
     resolver: yupResolver(cardFormSchema),
     resetOptions: {
       keepIsSubmitted: true,
@@ -68,9 +67,9 @@ function Cards() {
 
   const { errors } = formState;
 
-  const getCards = async () => {
+  const getCategories = async () => {
     try {
-      const response = await api.get<CardsData[]>("cards/owner");
+      const response = await api.get<CategoriesData[]>("/categories");
 
       setCards(response.data);
     } catch (error) {
@@ -87,18 +86,18 @@ function Cards() {
   };
 
   useEffect(() => {
-    getCards();
+    getCategories();
   }, []);
 
-  const handleAddCard: SubmitHandler<CardFormData> = async ({
-    tag,
-  }: CardFormData) => {
+  const handleAddCard: SubmitHandler<CategoriesFormData> = async ({
+    name,
+  }: CategoriesFormData) => {
     try {
-      api.post("/cards", { tag });
+      api.post("/categories", { name });
 
       toast({
         title: "Parabéns!",
-        description: "Cartão adicionando com sucesso",
+        description: "Categoria adicionanda com sucesso",
         status: "success",
         duration: 10000,
         isClosable: true,
@@ -135,7 +134,7 @@ function Cards() {
             onClick={onOpen}
             rightIcon={<PlusSquareIcon />}
           >
-            Novo Cartão
+            Nova Categoria
           </Button>
         </Flex>
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -145,14 +144,14 @@ function Cards() {
             as="form"
             onSubmit={handleSubmit(handleAddCard)}
           >
-            <ModalHeader>Novo Cartão</ModalHeader>
+            <ModalHeader>Nova Categoria</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Input
                 type="text"
-                label="Apelido"
-                {...register("tag")}
-                error={errors.tag}
+                label="Categoria"
+                {...register("name")}
+                error={errors.name}
               />
             </ModalBody>
 
@@ -174,7 +173,7 @@ function Cards() {
                   <Stack spacing="3">
                     <Box>
                       <Heading size="md" color="gray.200">
-                        {card.tag}
+                        {card.name}
                       </Heading>
                       {card.isActive ? (
                         <CheckIcon color="green.500" />
@@ -187,13 +186,6 @@ function Cards() {
                 <Divider color="gray.400" />
                 <CardFooter>
                   <ButtonGroup>
-                    <IconButton
-                      colorScheme="purple"
-                      bg="purple.800"
-                      aria-label="Search database"
-                      isDisabled={!card.isActive}
-                      icon={<ViewIcon />}
-                    />
                     <IconButton
                       colorScheme="red"
                       bg="red.800"
@@ -212,4 +204,4 @@ function Cards() {
   );
 }
 
-export { Cards };
+export { Categories };
