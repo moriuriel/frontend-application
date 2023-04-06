@@ -1,12 +1,12 @@
 import { ArrowBackIcon } from '@chakra-ui/icons'
-import { Link as RouterLink } from 'react-router-dom'
 import { Button, Flex, Link, Stack, useToast } from '@chakra-ui/react'
-import { Logo } from '../../components/Logo'
-import { Input } from '../../components/Form/Input'
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { Link as RouterLink } from 'react-router-dom'
+import * as yup from 'yup'
 import { api } from '../../api/axios'
+import { Input } from '../../components/Form/Input'
+import { Logo } from '../../components/Logo'
 
 type SignUpFormData = {
   name: string
@@ -32,13 +32,12 @@ function SignUp() {
 
   const handleSignIn: SubmitHandler<SignUpFormData> = async (values) => {
     try {
-      const response = await api.post('/users', {
+      await api.post('/users', {
         name: values.name,
         email: values.email,
         password: values.password,
       })
 
-      console.log(response)
       toast({
         title: 'Sucesso!',
         description:

@@ -1,6 +1,11 @@
 {
     "extends": "@rocketseat/eslint-config/react",
     "rules": {
-        "react-hooks/rules-of-hooks": "error"
+        "prettier/prettier": [
+            "off",
+            {
+                "singleQuote": false
+            }
+        ]
     }
 }
