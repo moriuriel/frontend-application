@@ -176,7 +176,7 @@ function Cards() {
                     </Box>
                   </Stack>
                 </CardBody>
-                <Divider />
+                <Divider color="gray.100"/>
                 <CardFooter>
                   <Flex align="center" justifyContent="space-between" w="100%">
                     <IconButton
