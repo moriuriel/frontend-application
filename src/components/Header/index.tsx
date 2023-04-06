@@ -1,6 +1,7 @@
-import { Flex } from '@chakra-ui/react'
-import { Logo } from '../Logo'
-import { Profile } from './Profile'
+import { Flex } from "@chakra-ui/react";
+import { Logo } from "../Logo";
+import { NavLink } from "./NavLink";
+import { Profile } from "./Profile";
 
 export function Header() {
   return (
@@ -15,9 +16,13 @@ export function Header() {
       align="center"
     >
       <Logo />
+      <Flex justifyContent="center">
+        <NavLink href="/cartoes">Cartões</NavLink>
+        <NavLink href="/categorias">Categorias</NavLink>
+      </Flex>
       <Flex align="center" ml="auto">
         <Profile />
       </Flex>
     </Flex>
-  )
+  );
 }
