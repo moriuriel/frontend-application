@@ -25,9 +25,9 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         placeholder={label}
         variant="outline"
         borderColor="gray.700"
-        focusBorderColor="gray.600"
+        focusBorderColor="gray.500"
         _hover={{
-          bgColor: 'gray.900',
+          bgColor: 'gray.50',
         }}
         size="lg"
         ref={ref}

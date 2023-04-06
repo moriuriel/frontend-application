@@ -17,6 +17,7 @@ export function NavLink({ children, href, ...rest }: NavLinkProps) {
       to={href}
       display="flex"
       align="center"
+      color="purple.600"
       {...rest}
     >
       <Text ml="4" fontWeight="medium">

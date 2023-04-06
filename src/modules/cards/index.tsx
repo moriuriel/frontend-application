@@ -1,20 +1,17 @@
 import {
   CheckIcon,
   CloseIcon,
-  DeleteIcon,
   PlusSquareIcon,
   ViewIcon
 } from "@chakra-ui/icons";
 import {
   Box,
   Button,
-  ButtonGroup,
   Card,
   CardBody,
   CardFooter,
   Divider,
-  Flex,
-  Heading,
+  Flex, Heading,
   IconButton,
   Modal,
   ModalBody,
@@ -24,8 +21,7 @@ import {
   ModalHeader,
   ModalOverlay,
   SimpleGrid,
-  Stack,
-  useDisclosure,
+  Stack, useDisclosure,
   useToast
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -50,7 +46,7 @@ type CardsData = {
 };
 
 const cardFormSchema = yup.object().shape({
-  tag: yup.string().required("Apelido obrigatório"),
+  tag: yup.string().required("Apelido obrigatório")
 });
 function Cards() {
   const toast = useToast();
@@ -61,8 +57,8 @@ function Cards() {
     resolver: yupResolver(cardFormSchema),
     resetOptions: {
       keepIsSubmitted: true,
-      keepErrors: true,
-    },
+      keepErrors: true
+    }
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -81,7 +77,7 @@ function Cards() {
         status: "error",
         duration: 10000,
         isClosable: true,
-        position: "top-right",
+        position: "top-right"
       });
     }
   };
@@ -91,7 +87,7 @@ function Cards() {
   }, []);
 
   const handleAddCard: SubmitHandler<CardFormData> = async ({
-    tag,
+    tag
   }: CardFormData) => {
     try {
       api.post("/cards", { tag });
@@ -102,7 +98,7 @@ function Cards() {
         status: "success",
         duration: 10000,
         isClosable: true,
-        position: "top-right",
+        position: "top-right"
       });
     } catch (error) {
       toast({
@@ -112,7 +108,7 @@ function Cards() {
         status: "error",
         duration: 10000,
         isClosable: true,
-        position: "top-right",
+        position: "top-right"
       });
     } finally {
       onClose();
@@ -140,11 +136,7 @@ function Cards() {
         </Flex>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
-          <ModalContent
-            bg="gray.800"
-            as="form"
-            onSubmit={handleSubmit(handleAddCard)}
-          >
+          <ModalContent as="form" onSubmit={handleSubmit(handleAddCard)}>
             <ModalHeader>Novo Cartão</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
@@ -169,39 +161,32 @@ function Cards() {
         >
           {cards?.map((card) => {
             return (
-              <Card maxW="sm" key={card.id} bg="gray.800">
+              <Card maxW="sm" key={card.id} bg="gray.50">
                 <CardBody>
                   <Stack spacing="3">
                     <Box>
-                      <Heading size="md" color="gray.200">
+                      <Heading size="md" color="gray.900">
                         {card.tag}
                       </Heading>
                       {card.isActive ? (
                         <CheckIcon color="green.500" />
                       ) : (
-                        <CloseIcon color="red.800" />
+                        <CloseIcon color="red.500" />
                       )}
                     </Box>
                   </Stack>
                 </CardBody>
-                <Divider color="gray.400" />
+                <Divider />
                 <CardFooter>
-                  <ButtonGroup>
+                  <Flex align="center" justifyContent="space-between" w="100%">
                     <IconButton
                       colorScheme="purple"
-                      bg="purple.800"
                       aria-label="Search database"
                       isDisabled={!card.isActive}
                       icon={<ViewIcon />}
                     />
-                    <IconButton
-                      colorScheme="red"
-                      bg="red.800"
-                      aria-label="Search database"
-                      isDisabled={!card.isActive}
-                      icon={<DeleteIcon />}
-                    />
-                  </ButtonGroup>
+                    
+                  </Flex>
                 </CardFooter>
               </Card>
             );

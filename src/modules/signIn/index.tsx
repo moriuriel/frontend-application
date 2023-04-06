@@ -49,7 +49,7 @@ function SignIn() {
         as="form"
         width="100%"
         maxWidth={360}
-        bg="gray.800"
+        bg="gray.50"
         p="10"
         borderRadius={8}
         flexDir="column"

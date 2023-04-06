@@ -13,8 +13,8 @@ export function Profile() {
   return (
     <Flex align="center">
       <Box mr="4" textAlign="right">
-        <Text>{user.name}</Text>
-        <Text color="gray.300" fontSize="small">
+        <Text color="purple.600">{user.name}</Text>
+        <Text color="purple.600" fontSize="small">
           {user.email}
         </Text>
         <Link

@@ -140,7 +140,6 @@ function Categories() {
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent
-            bg="gray.800"
             as="form"
             onSubmit={handleSubmit(handleAddCard)}
           >
@@ -168,11 +167,11 @@ function Categories() {
         >
           {cards?.map((card) => {
             return (
-              <Card maxW="sm" key={card.id} bg="gray.800">
+              <Card maxW="sm" key={card.id} bg="gray.50">
                 <CardBody>
                   <Stack spacing="3">
                     <Box>
-                      <Heading size="md" color="gray.200">
+                      <Heading size="md"  color="gray.900">
                         {card.name}
                       </Heading>
                       {card.isActive ? (
@@ -183,12 +182,11 @@ function Categories() {
                     </Box>
                   </Stack>
                 </CardBody>
-                <Divider color="gray.400" />
+                <Divider />
                 <CardFooter>
                   <ButtonGroup>
                     <IconButton
                       colorScheme="red"
-                      bg="red.800"
                       aria-label="Search database"
                       isDisabled={!card.isActive}
                       icon={<DeleteIcon />}
