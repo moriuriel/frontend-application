@@ -1,4 +1,6 @@
+import { PlusSquareIcon } from "@chakra-ui/icons";
 import {
+  Button,
   Flex,
   Grid,
   GridItem,
@@ -72,6 +74,11 @@ function Dashboard() {
         mx="auto"
         px="6"
       >
+        <Flex mb="6">
+          <Button colorScheme="purple" rightIcon={<PlusSquareIcon />}>
+            Adicionar Conta
+          </Button>
+        </Flex>
         <Flex mb="2" flexDirection="column">
           <Heading as="h4" size="md">
             Contas do mês
@@ -89,7 +96,7 @@ function Dashboard() {
           <GridItem w="100%" h="10">
             <Stat>
               <StatLabel color="purple.700" fontWeight="bold">
-                Comparação com mês passado
+                Valor pago mês passado
               </StatLabel>
               <StatNumber>
                 {dashboardData?.bills.amountPaidLastMonth}
