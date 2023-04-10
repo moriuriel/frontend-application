@@ -3,15 +3,64 @@ import {
   Grid,
   GridItem,
   Heading,
+  ListItem,
+  Progress,
   Stat,
   StatArrow,
-  StatHelpText,
   StatLabel,
-  StatNumber
+  StatNumber,
+  Text,
+  UnorderedList,
+  useToast
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { api } from "../../api/axios";
 import { Header } from "../../components/Header";
 
+type MostUsedCards = {
+  tag: string;
+  total: number;
+  totalPercent: number;
+};
+
+type StatsBills = {
+  amountPaid: string;
+  amountToBePaid: string;
+  amountPaidLastMonth: string;
+  inCrescent: boolean;
+};
+
+type DashboardStats = {
+  totalPaid: number;
+  cards: MostUsedCards[];
+  bills: StatsBills;
+};
+
 function Dashboard() {
+  const toast = useToast();
+  const [dashboardData, SetDashboardData] = useState<DashboardStats>();
+
+  const getCards = async () => {
+    try {
+      const response = await api.get<DashboardStats>("/dashboard/stats");
+
+      SetDashboardData(response.data);
+    } catch (error) {
+      toast({
+        description:
+          "Tivemos um erro inesperado, por favor tente novamente mais tarde",
+        title: "Ops!",
+        status: "error",
+        duration: 10000,
+        isClosable: true,
+        position: "top-right"
+      });
+    }
+  };
+
+  useEffect(() => {
+    getCards();
+  }, []);
   return (
     <>
       <Header />
@@ -23,18 +72,10 @@ function Dashboard() {
         mx="auto"
         px="6"
       >
-        <Flex mb={20} flexDirection="column">
-          <Heading as='h4' size='md'>Cartão mais utilizado</Heading>
-          <GridItem w="100%" h="10">
-            <Stat>
-              <StatLabel color="purple.700" fontWeight="bold">
-                BB Card
-              </StatLabel>
-            </Stat>
-          </GridItem>
-        </Flex>
         <Flex mb="2" flexDirection="column">
-          <Heading as='h4' size='md'>Contas do mês</Heading>
+          <Heading as="h4" size="md">
+            Contas do mês
+          </Heading>
         </Flex>
         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
           <GridItem w="100%" h="10">
@@ -42,17 +83,7 @@ function Dashboard() {
               <StatLabel color="green.500" fontWeight="bold">
                 Valores pagos
               </StatLabel>
-              <StatNumber>£0.00</StatNumber>
-              <StatHelpText>Março</StatHelpText>
-            </Stat>
-          </GridItem>
-          <GridItem w="100%" h="10">
-            <Stat>
-              <StatLabel color="red.700" fontWeight="bold">
-                Valores a ser pago
-              </StatLabel>
-              <StatNumber>R$0.00</StatNumber>
-              <StatHelpText>Março</StatHelpText>
+              <StatNumber>{dashboardData?.bills.amountPaid}</StatNumber>
             </Stat>
           </GridItem>
           <GridItem w="100%" h="10">
@@ -60,15 +91,48 @@ function Dashboard() {
               <StatLabel color="purple.700" fontWeight="bold">
                 Comparação com mês passado
               </StatLabel>
-              <StatNumber>£0.00</StatNumber>
-              <StatHelpText>
-                <StatArrow type="increase" />
-                Março
-              </StatHelpText>
+              <StatNumber>
+                {dashboardData?.bills.amountPaidLastMonth}
+                <StatArrow
+                  type={
+                    dashboardData?.bills.inCrescent ? "increase" : "decrease"
+                  }
+                />
+              </StatNumber>
+            </Stat>
+          </GridItem>
+          <GridItem w="100%" h="10">
+            <Stat>
+              <StatLabel color="red.700" fontWeight="bold">
+                Valores a ser pago
+              </StatLabel>
+              <StatNumber>{dashboardData?.bills.amountToBePaid}</StatNumber>
             </Stat>
           </GridItem>
         </Grid>
-        
+        <Flex mt={100} flexDirection="column">
+          <Heading as="h4" size="md">
+            Cartões mais utilizados
+          </Heading>
+          <GridItem w="20%" h="10">
+            <UnorderedList>
+              {dashboardData?.cards.map((card) => {
+                return (
+                  <ListItem key={card.tag} mb={2}>
+                    <Text color="purple.700" fontWeight="bold">
+                      {card.tag} {card.total}/{dashboardData.totalPaid}
+                    </Text>
+                    <Progress
+                      borderRadius={6}
+                      colorScheme="purple"
+                      value={card.totalPercent}
+                    />
+                  </ListItem>
+                );
+              })}
+            </UnorderedList>
+          </GridItem>
+        </Flex>
       </Flex>
     </>
   );
