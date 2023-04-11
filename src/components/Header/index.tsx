@@ -9,6 +9,7 @@ export function Header() {
       <Flex as="header" w="100%"  align="center">
         <Logo />
         <Flex justifyContent="center">
+          <NavLink href="/dashboard">Dashboard</NavLink>
           <NavLink href="/cartoes">Cartões</NavLink>
           <NavLink href="/categorias">Categorias</NavLink>
         </Flex>

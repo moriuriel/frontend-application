@@ -182,7 +182,7 @@ function Categories() {
                     </Box>
                   </Stack>
                 </CardBody>
-                <Divider />
+                <Divider color="gray.100"/>
                 <CardFooter>
                   <ButtonGroup>
                     <IconButton
