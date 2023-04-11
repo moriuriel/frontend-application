@@ -40,6 +40,7 @@ type DashboardStats = {
 
 function Dashboard() {
   const toast = useToast();
+
   const [dashboardData, SetDashboardData] = useState<DashboardStats>();
 
   const getCards = async () => {
