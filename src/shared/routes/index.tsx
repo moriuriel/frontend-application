@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
+import { ListBills } from '../../modules/bills/list'
 import { Cards } from '../../modules/cards'
 import { Categories } from '../../modules/categories'
 import { Dashboard } from '../../modules/dashboard'
@@ -20,6 +21,10 @@ function Router() {
       <Route
         path="/categorias"
         element={<PrivateRoute path="/categorias" component={Categories} />}
+      />
+       <Route
+        path="/contas"
+        element={<PrivateRoute path="/contas" component={ListBills} />}
       />
       <Route path="/" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />

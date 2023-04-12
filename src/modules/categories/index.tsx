@@ -167,7 +167,7 @@ function Categories() {
         >
           {cards?.map((card) => {
             return (
-              <Card maxW="sm" key={card.id} bg="gray.50">
+              <Card maxW="sm" key={card.id} bg="transparent" variant="outline">
                 <CardBody>
                   <Stack spacing="3">
                     <Box>

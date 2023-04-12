@@ -66,7 +66,7 @@ function Cards() {
 
   const getCards = async () => {
     try {
-      const response = await api.get<CardsData[]>("cards/owner");
+      const response = await api.get<CardsData[]>("/cards/owner");
 
       setCards(response.data);
     } catch (error) {
@@ -161,7 +161,7 @@ function Cards() {
         >
           {cards?.map((card) => {
             return (
-              <Card maxW="sm" key={card.id} bg="gray.50">
+              <Card maxW="sm" key={card.id} bg="transparent" variant="outline">
                 <CardBody>
                   <Stack spacing="3">
                     <Box>
